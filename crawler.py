@@ -25,6 +25,7 @@ def getPage(url, website):
 		log = open('log.txt', 'a')
 		entry = str(datetime.now())
 		log.write(''.join([entry, str(e)]))
+		failures = failures + 1
 
 	return html_raw.getvalue()
 
@@ -32,8 +33,9 @@ def getPrice(html_raw, website):
 	if len(html_raw) < 50000 and iteration % 80 == 0:
 		sendText("Odd html received, maybe blocked?")
 		failures = failures + 1
-		if failures > 100:
+		if failures > 50:
 			cont = False
+			sendText("Quitting program, too many failures")
 
 	else:
 		tree = html.fromstring(html_raw)
