@@ -5,12 +5,14 @@ import os
 import time
 from lxml import html
 from twilio.rest import Client
+from targets import target
 
 agents = {"reddit" : os.environ['reddituseragent']}
 iteration = 0
-gpu_titles = []
+target_titles = []
 cont = True
 failures = 0
+targets = [target(['[GPU]', '1080']), target(['[SSD]'])]
 
 def getPage(url, website):
 	html_raw = cStringIO.StringIO()
@@ -40,13 +42,13 @@ def getPrice(html_raw, website):
 	else:
 		tree = html.fromstring(html_raw)
 		titles = tree.xpath('//a[@class="title may-blank outbound"]/text()')
-
-		for t in titles:
-			if "[GPU]" in t and "1080" in t:
-				if t not in gpu_titles:			
-					gpu_titles.append(t)
-					if iteration > 10:
-						sendText("New gtx 1080 deal posted on reddit: " + t)
+		for target in targets:
+			for t in titles:
+				if all(cond_words in t for cond_words in target.title_conditions):
+					if t not in target_titles:			
+						target_titles.append(t)
+						if iteration > 10:
+							sendText("New deal posted matching criteria: " + t)
 
 def sendText(message):
 	account_sid = os.environ['twiliosid']
