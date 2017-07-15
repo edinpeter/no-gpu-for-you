@@ -64,7 +64,7 @@ def sendText(message):
 	print "Text sent!"
 
 if len(sys.argv)> 3:
-	url = 'https://www.reddit.com/r/test'
+	url = 'https://www.reddit.com/r/test/'
 	query = '//a[@class="title may-blank "]/text()'
 while cont:
 	iteration = iteration + 1
