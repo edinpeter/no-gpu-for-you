@@ -35,7 +35,7 @@ def getPage(url, website):
 	return html_raw.getvalue()
 
 def getPrice(html_raw, website):
-	if len(html_raw) < 50000 and iteration % 80 == 0:
+	if len(html_raw) < 50000 and iteration % 10 == 0:
 		sendText("Odd html received, maybe blocked?")
 		failures = failures + 1
 		if failures > 50:
