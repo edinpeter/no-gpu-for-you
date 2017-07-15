@@ -3,6 +3,7 @@ import cStringIO
 import datetime
 import os
 import time
+import sys
 from lxml import html
 from twilio.rest import Client
 from targets import target
@@ -12,7 +13,9 @@ iteration = 0
 target_titles = []
 cont = True
 failures = 0
-targets = [target(['[GPU]', '1080']), target(['[SSD]'])]
+targets = [target(['GTX', '1080']), target(['[SSD]'])]
+query = '//a[@class="title may-blank outbound"]/text()'
+url = 'https://www.reddit.com/r/buildapcsales/new/'
 
 def getPage(url, website):
 	html_raw = cStringIO.StringIO()
@@ -41,7 +44,7 @@ def getPrice(html_raw, website):
 
 	else:
 		tree = html.fromstring(html_raw)
-		titles = tree.xpath('//a[@class="title may-blank outbound"]/text()')
+		titles = tree.xpath(query)
 		for target in targets:
 			for t in titles:
 				if all(cond_words in t for cond_words in target.title_conditions):
@@ -60,9 +63,12 @@ def sendText(message):
 	  	                                         body=message)
 	print "Text sent!"
 
+if len(sys.argv)> 3:
+	url = 'https://www.reddit.com/r/test'
+	query = '//a[@class="title may-blank "]/text()'
 while cont:
 	iteration = iteration + 1
 	print iteration
-	getPrice(getPage('https://www.reddit.com/r/buildapcsales/new/', 'reddit'), 'reddit')
+	getPrice(getPage(url, 'reddit'), 'reddit')
 	time.sleep(8.5)
 
