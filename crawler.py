@@ -50,7 +50,7 @@ def getPrice(html_raw, website):
 				if all(cond_words in t for cond_words in target.title_conditions):
 					if t not in target_titles:			
 						target_titles.append(t)
-						if iteration > 10:
+						if iteration > 2:
 							sendText("New deal posted matching criteria: " + t)
 
 def sendText(message):
