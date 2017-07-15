@@ -12,9 +12,7 @@ gpu_titles = []
 cont = True
 failures = 0
 
-
 def getPage(url, website):
-
 	html_raw = cStringIO.StringIO()
 	c_opt = pycurl.Curl()
 	c_opt.setopt(pycurl.USERAGENT, agents.get(website, ''))
@@ -47,16 +45,15 @@ def getPrice(html_raw, website):
 					gpu_titles.append(t)
 					if iteration > 10:
 						sendText("New gtx 1080 deal posted on reddit: " + t)
-def sendText(message):
-	# Find these values at https://twilio.com/user/account
 
+def sendText(message):
 	account_sid = os.environ['twiliosid']
 	auth_token = os.environ['twiliotoken']
 	client = Client(account_sid, auth_token)
 
 	message = client.api.account.messages.create(to=os.environ['myphone'],
 	                                             from_=os.environ['twiliophone'],
-	                                             body=message)
+	  	                                         body=message)
 	print "Text sent!"
 
 while cont:
