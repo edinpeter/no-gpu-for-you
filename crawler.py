@@ -30,6 +30,7 @@ def getPage(url, website):
 		log = open('log.txt', 'a')
 		entry = str(datetime.now())
 		log.write(''.join([entry, str(e)]))
+		log.close()
 		failures = failures + 1
 
 	return html_raw.getvalue()
@@ -50,7 +51,7 @@ def getPrice(html_raw, website):
 				if all(cond_words in t for cond_words in target.title_conditions):
 					if t not in target_titles:			
 						target_titles.append(t)
-						if iteration > 2:
+						if iteration > 1:
 							sendText("New deal posted matching criteria: " + t)
 
 def sendText(message):
@@ -70,5 +71,11 @@ while cont:
 	iteration = iteration + 1
 	print iteration
 	getPrice(getPage(url, 'reddit'), 'reddit')
+
+	log = open('iter.txt', 'w')
+	log.write(str(iteration))
+	log.close()
+
 	time.sleep(8.5)
+
 
