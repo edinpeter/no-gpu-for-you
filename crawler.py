@@ -75,7 +75,7 @@ while cont:
 	getPrice(getPage(url, 'reddit'), 'reddit')
 
 	log = open('iter.txt', 'a')
-	log.write(str(''.join([iteration, failures])))
+	log.write(''.join([str(iteration), str(failures)]))
 	log.close()
 
 	time.sleep(8.5)
