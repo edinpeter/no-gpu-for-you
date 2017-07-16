@@ -18,6 +18,7 @@ query = '//a[@class="title may-blank outbound"]/text()'
 url = 'https://www.reddit.com/r/buildapcsales/new/'
 
 def getPage(url, website):
+	global failures
 	html_raw = cStringIO.StringIO()
 	c_opt = pycurl.Curl()
 	c_opt.setopt(pycurl.USERAGENT, agents.get(website, ''))
@@ -36,6 +37,7 @@ def getPage(url, website):
 	return html_raw.getvalue()
 
 def getPrice(html_raw, website):
+	global failures
 	if len(html_raw) < 50000 and iteration % 10 == 0:
 		sendText("Odd html received, maybe blocked?")
 		failures = failures + 1
